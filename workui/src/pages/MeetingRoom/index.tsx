@@ -4,7 +4,6 @@ import {
   Card,
   Col,
   Form,
-  FormInstance,
   Input,
   Row,
   Select,
@@ -15,13 +14,13 @@ import {
 
 import hooks from '@/hooks';
 import { useMemoizedFn } from 'ahooks';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import RoomModal from './RoomModal';
 
 const MeetingRoom: React.FC = () => {
   const [form] = Form.useForm();
+  const [roomForm] = Form.useForm();
   const [open, setOpen] = useState<boolean>(false);
-  const room = useRef<API.UpdateMeetingRoomRequest | undefined>(undefined);
   const {
     tableProps,
     search,
@@ -38,14 +37,10 @@ const MeetingRoom: React.FC = () => {
     (values?: API.UpdateMeetingRoomRequest | undefined) => {
       setOpen(true);
       if (values) {
-        room.current = values;
+        roomForm.setFieldsValue(values);
       }
     },
   );
-
-  const afterOpen = useMemoizedFn((form: FormInstance) => {
-    form.setFieldsValue(room.current);
-  });
 
   const onClose = useMemoizedFn(() => {
     setOpen(false);
@@ -132,8 +127,8 @@ const MeetingRoom: React.FC = () => {
         open={open}
         onCancel={onClose}
         onOk={onOk}
-        afterOpen={afterOpen}
         confirmLoading={createLoading || updateLoading}
+        form={roomForm}
       />
     </PageContainer>
   );

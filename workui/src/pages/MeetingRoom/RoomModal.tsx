@@ -1,35 +1,27 @@
-import type { FormInstance, ModalProps } from 'antd';
+import type { FormInstance } from 'antd';
 import { Form, Input, InputNumber, Modal } from 'antd';
 
 interface RoomModalProps<T> {
   open: boolean;
   onOk: (args: T) => void;
   onCancel: () => void;
-  afterOpen?: (form: FormInstance<T>) => void;
   confirmLoading?: boolean;
+  form?: FormInstance<T>;
 }
 
 const RoomModal: React.FC<RoomModalProps<API.UpdateMeetingRoomRequest>> = ({
   open,
   onCancel,
   onOk: onFinish,
-  afterOpen,
   confirmLoading,
+  form,
 }) => {
-  const [form] = Form.useForm<API.UpdateMeetingRoomRequest>();
-
   const onOk = () => {
-    form.submit();
+    form?.submit();
   };
 
   const afterClose = () => {
-    form.resetFields();
-  };
-
-  const afterOpenChange: ModalProps['afterOpenChange'] = (open) => {
-    if (open) {
-      afterOpen?.(form);
-    }
+    form?.resetFields();
   };
 
   return (
@@ -40,7 +32,6 @@ const RoomModal: React.FC<RoomModalProps<API.UpdateMeetingRoomRequest>> = ({
       onOk={onOk}
       closable={false}
       afterClose={afterClose}
-      afterOpenChange={afterOpenChange}
       confirmLoading={confirmLoading}
     >
       <Form

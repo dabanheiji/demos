@@ -45,7 +45,7 @@ export class UserController {
       html: `<p>你的注册验证码是${code}</p>`,
     });
 
-    return 'ok';
+    return { message: 'ok' };
   }
 
   @Post('register')

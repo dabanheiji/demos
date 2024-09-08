@@ -16,6 +16,32 @@ namespace API {
     token: string;
   }
 
+  interface CaptchaRequest {
+    address: string;
+  }
+
+  interface RegisterRequest {
+    username: string;
+    password: string;
+    email: string;
+    nickName: string;
+    captcha: string;
+  }
+
+  interface RegisterResponse {
+    id: number;
+    username: string;
+    email: string;
+    createdAt: string;
+  }
+
+  interface UpdatePasswordRequest {
+    username: string;
+    password: string;
+    email: string;
+    captcha: string;
+  }
+
   /**
    * 会议室
    */

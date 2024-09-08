@@ -1,14 +1,13 @@
-import './index.less';
-
 import hooks from '@/hooks';
 import { useNavigate } from '@umijs/max';
-import { Button, Card, Form, Input, message } from 'antd';
+import { Button, Card, Flex, Form, Input, message, Typography } from 'antd';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   const { run: handleSubmit, loading } = hooks.services.user.useLogin({
     onSuccess: (res) => {
+      console.log(res);
       message.success('登录成功');
       localStorage.setItem('token', res.token);
       navigate('/');
@@ -36,6 +35,17 @@ const LoginPage: React.FC = () => {
             rules={[{ required: true, message: '请输入密码' }]}
           >
             <Input.Password placeholder="请输入密码" />
+          </Form.Item>
+          <Form.Item>
+            <Flex justify="space-between">
+              <Typography.Text>
+                没有账号？
+                <Typography.Link href="/register">去注册</Typography.Link>
+              </Typography.Text>
+              <Typography.Link href="/update-password">
+                忘记密码
+              </Typography.Link>
+            </Flex>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={loading} block>

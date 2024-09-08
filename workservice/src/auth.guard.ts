@@ -53,7 +53,7 @@ export class AuthGuard implements CanActivate {
     try {
       const token = authorization.split(' ')[1];
       const data = this.jwtService.verify<JwtUserData>(token);
-      console.log('data', data);
+
       request.user = {
         userId: data.userId,
         username: data.username,

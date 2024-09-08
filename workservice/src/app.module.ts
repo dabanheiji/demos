@@ -12,7 +12,17 @@ import { ExcelModule } from './excel/excel.module';
 import { AnalyseModule } from './analyse/analyse.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, EmailModule, RedisModule, ExamModule, CommonModule, AnswerModule, ExcelModule, AnalyseModule],
+  imports: [
+    PrismaModule,
+    UserModule,
+    EmailModule,
+    RedisModule,
+    ExamModule,
+    CommonModule,
+    AnswerModule,
+    ExcelModule,
+    AnalyseModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

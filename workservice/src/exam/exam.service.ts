@@ -33,7 +33,7 @@ export class ExamService {
         bin !== undefined
           ? {
               createUserId: userId,
-              isDeleted: true,
+              isDeleted: !bin,
             }
           : {
               createUserId: userId,

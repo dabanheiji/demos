@@ -1,11 +1,11 @@
-import hooks from '@/hooks';
+import { useLogin } from '@/hooks';
 import { useNavigate } from '@umijs/max';
 import { Button, Card, Flex, Form, Input, message, Typography } from 'antd';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const { run: handleSubmit, loading } = hooks.services.user.useLogin({
+  const { run: handleSubmit, loading } = useLogin({
     onSuccess: (res) => {
       console.log(res);
       message.success('登录成功');

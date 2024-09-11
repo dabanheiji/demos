@@ -1,14 +1,13 @@
-import hooks from '@/hooks';
+import { useRegister, useRegisterCaptcha } from '@/hooks';
 import { Button, Card, Flex, Form, Input, Space, Typography } from 'antd';
 import React from 'react';
 
 const Register: React.FC = () => {
   const [form] = Form.useForm();
-  const { count, send, loading } = hooks.services.user.useRegisterCaptcha({
+  const { count, send, loading } = useRegisterCaptcha({
     form,
   });
-  const { onFinish, loading: registerLoading } =
-    hooks.services.user.useRegister();
+  const { onFinish, loading: registerLoading } = useRegister();
 
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-sky-100">

@@ -12,7 +12,7 @@ import {
   Typography,
 } from 'antd';
 
-import hooks from '@/hooks';
+import { useMeetingRoom } from '@/hooks';
 import { useMemoizedFn } from 'ahooks';
 import { useState } from 'react';
 import RoomModal from './RoomModal';
@@ -29,7 +29,7 @@ const MeetingRoom: React.FC = () => {
     updateRun,
     createLoading,
     updateLoading,
-  } = hooks.services.meetingRoom.useMeetingRoom({
+  } = useMeetingRoom({
     form,
   });
 

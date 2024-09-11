@@ -1,4 +1,4 @@
-import hooks from '@/hooks';
+import { useUpdatePassword, useUpdatePasswordCaptcha } from '@/hooks';
 import { useNavigate } from '@umijs/max';
 import { Button, Card, Form, Input, Space } from 'antd';
 import React from 'react';
@@ -6,17 +6,14 @@ import React from 'react';
 const UpdatePassword: React.FC = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const { count, send, loading } = hooks.services.user.useUpdatePasswordCaptcha(
-    {
-      form,
+  const { count, send, loading } = useUpdatePasswordCaptcha({
+    form,
+  });
+  const { onFinish, loading: updatePasswordLoading } = useUpdatePassword({
+    onSuccess: () => {
+      navigate('/login');
     },
-  );
-  const { onFinish, loading: updatePasswordLoading } =
-    hooks.services.user.useUpdatePassword({
-      onSuccess: () => {
-        navigate('/login');
-      },
-    });
+  });
 
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-sky-100">

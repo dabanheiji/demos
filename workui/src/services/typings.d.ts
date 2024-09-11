@@ -43,6 +43,29 @@ namespace API {
   }
 
   /**
+   * 考试
+   */
+  interface AddExamRequest {
+    name: string;
+  }
+
+  interface SaveExamContentRequest {
+    id: number;
+    content: string;
+  }
+
+  interface Exam {
+    id: number;
+    name: string;
+    isPublished: boolean;
+    isDeleted: boolean;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+    createUserId: number;
+  }
+
+  /**
    * 会议室
    */
   interface MeetingRoom {

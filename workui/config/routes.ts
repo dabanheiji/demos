@@ -27,6 +27,23 @@ export const routes = [
     component: './Home',
   },
   {
+    name: '老常学院',
+    path: '/school',
+    routes: [
+      {
+        name: '考试管理',
+        path: '/school/exam',
+        component: './Exam',
+      },
+      {
+        name: '添加试卷',
+        path: '/school/exam/:id',
+        component: './ExamContent',
+        hideInMenu: true,
+      },
+    ],
+  },
+  {
     name: '会议中心',
     path: '/meeting',
     //   layout: false,

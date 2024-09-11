@@ -1,4 +1,4 @@
-import hooks from '@/hooks';
+import { useCRUD } from '@/hooks';
 import {
   addMeetingRoom,
   deleteMeetingRoom,
@@ -8,7 +8,7 @@ import {
 import { FormInstance } from 'antd';
 
 export const useMeetingRoom = ({ form }: { form: FormInstance }) => {
-  return hooks.scene.useCRUD({
+  return useCRUD({
     create: addMeetingRoom,
     read: getMeetingRoomList,
     update: updateMeetingRoom,

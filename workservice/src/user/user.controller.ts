@@ -6,6 +6,7 @@ import {
   Inject,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -14,6 +15,8 @@ import { RedisService } from 'src/redis/redis.service';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
+import { AuthGuard } from 'src/auth.guard';
+import { RequireLogin, UserInfo } from 'src/custom.decorator';
 
 @Controller('user')
 export class UserController {
@@ -94,5 +97,12 @@ export class UserController {
       html: `<p>你的更改密码验证码是 ${code}</p>`,
     });
     return 'ok';
+  }
+
+  @Get('user-info')
+  @UseGuards(AuthGuard)
+  @RequireLogin()
+  async userInfo(@UserInfo('userId') userId: number) {
+    return await this.userService.userInfo(userId);
   }
 }

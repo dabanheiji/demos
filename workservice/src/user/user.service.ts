@@ -10,6 +10,7 @@ import {
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
+import { md5 } from './utils';
 
 @Injectable()
 export class UserService {
@@ -50,7 +51,7 @@ export class UserService {
       return await this.prismaService.user.create({
         data: {
           username: user.username,
-          password: user.password,
+          password: md5(user.password),
           email: user.email,
         },
         select: {
@@ -76,7 +77,7 @@ export class UserService {
       throw new HttpException('用户不存在', HttpStatus.BAD_REQUEST);
     }
 
-    if (foundUser.password !== user.password) {
+    if (foundUser.password !== md5(user.password)) {
       throw new HttpException('密码错误', HttpStatus.BAD_REQUEST);
     }
 
@@ -103,7 +104,7 @@ export class UserService {
       },
     });
 
-    foundUser.password = passwordDto.password;
+    foundUser.password = md5(passwordDto.password);
 
     try {
       await this.prismaService.user.update({
@@ -117,5 +118,13 @@ export class UserService {
       this.logger.error(e, UserService);
       return '密码修改失败';
     }
+  }
+
+  async userInfo(userId: number) {
+    return await this.prismaService.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
   }
 }

@@ -25,7 +25,7 @@ const Content: React.FC<ContentProps> = ({
       };
     },
   }));
-  console.log('dataSource', dataSource);
+
   return (
     <div
       className="w-full overflow-y-auto p-4"

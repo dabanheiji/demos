@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import Question from './Question';
+import { Flex } from 'antd';
 
 export interface ContentProps {
   dataSource?: any[];
@@ -35,8 +36,11 @@ const Content: React.FC<ContentProps> = ({
         backgroundColor: isOver ? 'rgb(236 254 255)' : 'transparent',
       }}
     >
-      {dataSource?.map((item, i) => (
-        <Question key={i} item={item} onClick={onClick} />
+      <Flex justify='center' className='mb-8'>
+        {'标题'}
+      </Flex>
+      {dataSource?.map((item) => (
+        <Question key={item.key} item={item} onClick={onClick} />
       ))}
       <div className="text-center">{isOver ? '松开放下来' : ''}</div>
     </div>

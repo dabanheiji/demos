@@ -1,7 +1,7 @@
 export type QuestionType = 'radio' | 'checkbox' | 'textarea';
 
 export interface QuestionItem {
-  id: number;
+  key: number;
   type: QuestionType;
   options?: string[];
   question?: string;
@@ -14,7 +14,7 @@ export const createQuestion = (origin: {
   type: QuestionType;
 }): QuestionItem => {
   const question: QuestionItem = {
-    id: Date.now(),
+    key: Date.now(),
     type: origin.type,
     question: '',
     options: [],

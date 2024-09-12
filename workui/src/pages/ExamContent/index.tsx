@@ -5,7 +5,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Content from './Content';
 import QType from './QType';
-import QuestionEditor from './QuestionEditor';
+import QuestionEditor from '../../components/QuestionEditor';
 import { createQuestion, QuestionItem, QuestionType } from './utils';
 import { useDebounceFn, useRequest } from 'ahooks';
 import { history, useParams } from '@umijs/max';
@@ -42,7 +42,7 @@ const ExamContent = () => {
   const { run: onEditorChange, flush } = useDebounceFn((_, values) => {
     setQuestions((questions) =>
       questions.map((question) =>
-        question.id === values.id ? values : question,
+        question.key === values.key ? values : question,
       ),
     );
   }, { wait: 500 })

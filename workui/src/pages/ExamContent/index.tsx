@@ -14,7 +14,7 @@ import services from '@/services';
 const ExamContent = () => {
   const editorRef = useRef<any>();
   const params = useParams();
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<QuestionItem[]>([]);
   const [activeKey, setActiveKey] = useState<string>('1');
   const { run } = useRequest(services.exam.saveExamContent, {
     manual: true,

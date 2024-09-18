@@ -24,7 +24,7 @@ const Question: React.FC<QuestionProps> = ({ item, onClick }) => {
       className="p-4 border border-zinc-200 border-solid rounded-md mb-4 hover:shadow-md delay-150 transition-all cursor-pointer"
       onClick={() => onClick?.(item)}
     >
-      <Typography.Paragraph>{item.question || '配置题目'}</Typography.Paragraph>
+      <Typography.Paragraph>{item.content || '配置题目'}</Typography.Paragraph>
       {content}
     </div>
   );

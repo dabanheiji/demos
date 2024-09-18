@@ -38,6 +38,7 @@ model Exam {
   createUser User @relation(fields: [createUserId], references: [id])
 
   answers   Answer[]
+  questions ExamQuestion[]
 }
 
 model Answer {
@@ -52,4 +53,29 @@ model Answer {
 
   examId Int
   exam Exam @relation(fields: [examId], references: [id])
+}
+
+model Question {
+  id Int @id @default(autoincrement())
+  type String @db.VarChar(50)
+  content String @db.Text
+  options String @db.Text
+  answer String @db.VarChar(1000)
+  analyze String @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String @db.VarChar(50)
+  updatedBy String @db.VarChar(50)
+
+  exams ExamQuestion[]
+}
+
+model ExamQuestion {
+  id Int @id @default(autoincrement())
+  examId Int
+  exam Exam @relation(fields: [examId], references: [id])
+
+  questionId Int
+  question Question @relation(fields: [questionId], references: [id])
 }

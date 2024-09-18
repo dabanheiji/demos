@@ -22,7 +22,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = forwardRef(({
         form.setFieldsValue(values);
       },
     }),
-    [],
+    [form],
   );
 
   return (
@@ -46,13 +46,20 @@ const QuestionEditor: React.FC<QuestionEditorProps> = forwardRef(({
         </Form.Item>
         <Form.Item
           label="题目"
-          name="question"
+          name="content"
           rules={[{ required: true, message: '请输入题目' }]}
         >
           <Input placeholder="请输入题目" />
         </Form.Item>
         <Form.Item label="选项" required>
-          <Form.List name="options">
+          <Form.List name="options" rules={[{
+            validator(rule, value) {
+              if (value.length < 2) {
+                return Promise.reject('至少需要两个选项');
+              }
+              return Promise.resolve();
+            }
+          }]}>
             {(fields, { add, remove }) => {
               return (
                 <>

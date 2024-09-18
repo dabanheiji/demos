@@ -4,7 +4,7 @@ export interface QuestionItem {
   key: number;
   type: QuestionType;
   options?: string[];
-  question?: string;
+  content?: string;
   answer?: string;
   score?: number;
   analysis?: string;
@@ -16,7 +16,7 @@ export const createQuestion = (origin: {
   const question: QuestionItem = {
     key: Date.now(),
     type: origin.type,
-    question: '',
+    content: '',
     options: [],
     answer: '',
     analysis: '',

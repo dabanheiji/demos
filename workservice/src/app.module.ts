@@ -10,6 +10,7 @@ import { CommonModule } from './common/common.module';
 import { AnswerModule } from './answer/answer.module';
 import { ExcelModule } from './excel/excel.module';
 import { AnalyseModule } from './analyse/analyse.module';
+import { QuestionModule } from './question/question.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AnalyseModule } from './analyse/analyse.module';
     AnswerModule,
     ExcelModule,
     AnalyseModule,
+    QuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

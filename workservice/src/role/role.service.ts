@@ -47,4 +47,20 @@ export class RoleService {
     async list() {
         return await this.prismaService.role.findMany();
     }
+
+    async findByUser(userId: number) {
+        return await this.prismaService.role.findMany({
+            where: {
+                users: {
+                    some: {
+                        userId,
+                    }
+                }
+            },
+            select: {
+                name: true,
+                code: true,
+            }
+        });
+    }
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { RoleService } from './role.service';
-import { RequireLogin } from 'src/custom.decorator';
+import { RequireLogin, UserInfo } from 'src/custom.decorator';
 import { RoleAddDto } from './dto/role-add.dto';
 import { RoleUpdateDto } from './dto/role-update.dto';
 
@@ -30,5 +30,11 @@ export class RoleController {
   @RequireLogin()
   async delete(@Param('id') id: string) {
     return await this.roleService.delete(+id);
+  }
+
+  @Get('findByUser')
+  @RequireLogin()
+  async findByUser(@UserInfo('userId') userId: number) {
+    return await this.roleService.findByUser(userId);
   }
 }

@@ -32,7 +32,7 @@ export class UserService {
     if (!captcha) {
       throw new HttpException('验证码失效', HttpStatus.BAD_REQUEST);
     }
-    console.log(captcha, user.captcha);
+
     if (captcha !== user.captcha) {
       throw new HttpException('验证码错误', HttpStatus.BAD_REQUEST);
     }
@@ -71,6 +71,22 @@ export class UserService {
     const foundUser = await this.prismaService.user.findUnique({
       where: {
         username: user.username,
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        password: true,
+        roles: {
+          select: {
+            role: {
+              select: {
+                code: true,
+                name: true,
+              }
+            },
+          },
+        },
       },
     });
     if (!foundUser) {
@@ -124,6 +140,22 @@ export class UserService {
     return await this.prismaService.user.findUnique({
       where: {
         id: userId,
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        password: true,
+        roles: {
+          select: {
+            role: {
+              select: {
+                code: true,
+                name: true,
+              }
+            },
+          },
+        },
       },
     });
   }

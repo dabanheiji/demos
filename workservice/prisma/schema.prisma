@@ -23,6 +23,28 @@ model User {
 
   exams     Exam[]
   answers   Answer[]
+  examsUser ExamUser[]
+  roles     RoleUser[]
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(50)
+  code String @db.VarChar(50)
+  description String @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users RoleUser[]
+}
+
+model RoleUser {
+  id Int @id @default(autoincrement())
+  roleId Int
+  role Role @relation(fields: [roleId], references: [id])
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Exam {
@@ -39,6 +61,16 @@ model Exam {
 
   answers   Answer[]
   questions ExamQuestion[]
+  examsUser ExamUser[]
+}
+
+model ExamUser {
+  id Int @id @default(autoincrement())
+  examId Int
+  exam Exam @relation(fields: [examId], references: [id])
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Answer {
@@ -61,7 +93,7 @@ model Question {
   content String @db.Text
   options String @db.Text
   answer String @db.VarChar(1000)
-  analyze String @db.Text
+  analysis String @db.Text
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

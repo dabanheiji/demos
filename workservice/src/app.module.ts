@@ -11,6 +11,7 @@ import { AnswerModule } from './answer/answer.module';
 import { ExcelModule } from './excel/excel.module';
 import { AnalyseModule } from './analyse/analyse.module';
 import { QuestionModule } from './question/question.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { QuestionModule } from './question/question.module';
     ExcelModule,
     AnalyseModule,
     QuestionModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

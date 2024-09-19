@@ -1,7 +1,9 @@
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ExamAddDto } from './dto/exam-add.dto';
 import { ExamSaveDto } from './dto/exam-save.dto';
+import { Prisma } from '@prisma/client';
+import { ExamPublishDto } from './dto/exam-publish.dto';
 
 @Injectable()
 export class ExamService {
@@ -13,7 +15,6 @@ export class ExamService {
   private prismaService: PrismaService;
 
   async add(dto: ExamAddDto, userId: number) {
-    console.log(dto, userId);
     return await this.prismaService.exam.create({
       data: {
         name: dto.name,
@@ -41,11 +42,28 @@ export class ExamService {
     });
   }
 
-  async del(userId: number, id: number) {
+  async listByStudent(userId: number) {
+    return await this.prismaService.exam.findMany({
+      where: {
+        isPublished: true,
+        examsUser: {
+          some: {
+            userId,
+          }
+        }
+      },
+    });
+  }
+
+  async del(id: number) {
+    const exam = await this.find(id);
+    if(exam.isPublished) {
+      throw new HttpException('已发布试卷不能删除', HttpStatus.BAD_REQUEST);
+    }
+
     return await this.prismaService.exam.update({
       where: {
         id,
-        createUserId: userId,
       },
       data: {
         isDeleted: true,
@@ -54,6 +72,30 @@ export class ExamService {
   }
 
   async save(dto: ExamSaveDto) {
+    if (!dto.content) {
+      throw new HttpException('请先完善试卷内容', HttpStatus.BAD_REQUEST);
+    }
+
+    const content: any[] = JSON.parse(dto.content);
+    if(!content.length) {
+      throw new HttpException('试卷不能没有题目', HttpStatus.BAD_REQUEST);
+    }
+
+    const examQuestions: Prisma.ExamQuestionUncheckedCreateInput[] = [];
+    for(const item of content) {
+      if(item.id) {
+        examQuestions.push({
+          examId: dto.id,
+          questionId: item.id,
+        })
+      }
+    }
+
+    await this.prismaService.examQuestion.createMany({
+      data: examQuestions,
+      skipDuplicates: true,
+    })
+
     return await this.prismaService.exam.update({
       where: {
         id: dto.id,
@@ -64,11 +106,27 @@ export class ExamService {
     });
   }
 
-  async publish(userId: number, id: number) {
+  async publish(dto: ExamPublishDto) {
+    const exam = await this.find(dto.examId);
+    if(!exam.content) {
+      throw new HttpException('请先完善试卷内容', HttpStatus.BAD_REQUEST);
+    }
+
+    const examUsers: Prisma.ExamUserUncheckedCreateInput[] = [];
+    for(const userId of dto.userIds) {
+      examUsers.push({
+        examId: dto.examId,
+        userId,
+      })
+    }
+    await this.prismaService.examUser.createMany({
+      data: examUsers,
+      skipDuplicates: true,
+    })
+
     return await this.prismaService.exam.update({
       where: {
-        id,
-        createUserId: userId,
+        id: dto.examId,
       },
       data: {
         isPublished: true,
@@ -76,11 +134,10 @@ export class ExamService {
     });
   }
 
-  async unpublish(userId: number, id: number) {
+  async unpublish(id: number) {
     return await this.prismaService.exam.update({
       where: {
         id,
-        createUserId: userId,
       },
       data: {
         isPublished: false,

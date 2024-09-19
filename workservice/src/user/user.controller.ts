@@ -65,6 +65,7 @@ export class UserController {
         {
           userId: user.id,
           username: user.username,
+          roles: user.roles.map(role => role.role),
         },
         {
           expiresIn: '7d',

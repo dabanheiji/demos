@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 interface JwtUserData {
   userId: number;
   username: string;
+  roles: { code: string; name: string }[]
 }
 
 declare module 'express' {
@@ -57,6 +58,7 @@ export class AuthGuard implements CanActivate {
       request.user = {
         userId: data.userId,
         username: data.username,
+        roles: data.roles,
       };
 
       response.header(
@@ -65,6 +67,7 @@ export class AuthGuard implements CanActivate {
           {
             userId: data.userId,
             username: data.username,
+            roles: data.roles,
           },
           {
             expiresIn: '7d',

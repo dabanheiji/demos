@@ -5,14 +5,14 @@ export class QuestionAddDto {
     type: 'radio' | 'checkbox' | 'textarea';
 
     @IsNotEmpty({ message: '题目选项不能为空' })
-    options?: string[];
+    options: string[];
 
     @IsNotEmpty({ message: '题目内容不能为空' })
-    content?: string;
+    content: string;
 
     @IsNotEmpty({ message: '题目答案不能为空' })
-    answer?: string;
+    answer: string;
 
     @IsNotEmpty({ message: '答案解析不能为空' })
-    analysis?: string;
+    analysis: string;
 }

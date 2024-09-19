@@ -6,11 +6,13 @@ import {
   Param,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ExamService } from './exam.service';
 import { RequireLogin, UserInfo } from 'src/custom.decorator';
 import { ExamAddDto } from './dto/exam-add.dto';
 import { ExamSaveDto } from './dto/exam-save.dto';
+import { ExamPublishDto } from './dto/exam-publish.dto';
 
 @Controller('exam')
 export class ExamController {
@@ -34,10 +36,16 @@ export class ExamController {
     return await this.examService.list(userId, bin);
   }
 
+  @Get('listByStudent')
+  @RequireLogin()
+  async listByStudent(@UserInfo('userId') userId: number) {
+    return await this.examService.listByStudent(userId);
+  }
+
   @Delete('delete/:id')
   @RequireLogin()
-  async del(@UserInfo('userId') userId: number, @Param('id') id: string) {
-    return await this.examService.del(userId, +id);
+  async del(@Param('id') id: string) {
+    return await this.examService.del(+id);
   }
 
   @Post('save')
@@ -46,16 +54,16 @@ export class ExamController {
     return await this.examService.save(dto);
   }
 
-  @Get('publish/:id')
+  @Post('publish')
   @RequireLogin()
-  async publish(@UserInfo('userId') userId: number, @Param('id') id: string) {
-    return await this.examService.publish(userId, +id);
+  async publish(@Body() dto: ExamPublishDto) {
+    return await this.examService.publish(dto);
   }
 
   @Get('unpublish/:id')
   @RequireLogin()
-  async unpublish(@UserInfo('userId') userId: number, @Param('id') id: string) {
-    return await this.examService.unpublish(userId, +id);
+  async unpublish(@Param('id') id: string) {
+    return await this.examService.unpublish(+id);
   }
 
   @Get('find/:id')

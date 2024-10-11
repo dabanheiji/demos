@@ -2,7 +2,7 @@ import { useBoolean, useMemoizedFn } from 'ahooks';
 import { FormInstance } from 'antd';
 import { useImperativeHandle, useRef } from 'react';
 
-export type ModalRef = { show: () => Promise<any>; close: () => void };
+export type ModalRef = { show: (values?: any) => Promise<any>; close: () => void };
 
 export const useModal = <T>(
   ref: React.Ref<ModalRef>,
@@ -14,8 +14,11 @@ export const useModal = <T>(
   useImperativeHandle(
     ref,
     () => ({
-      show: () => {
+      show: (values: any) => {
         setTrue();
+        if(values) {
+          form.setFieldsValue(values);
+        }
         return new Promise((resolve) => {
           primiseRef.current = { resolve };
         });

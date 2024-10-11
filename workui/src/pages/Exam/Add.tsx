@@ -7,7 +7,7 @@ const Add = forwardRef<ModalRef>((_props, ref) => {
   const { open, onCancel, onConfirm } = useModal(ref, { form });
 
   return (
-    <Modal title={'添加考试'} open={open} onCancel={onCancel} onOk={onConfirm}>
+    <Modal title={'添加考试'} open={open} onCancel={onCancel} onOk={onConfirm} afterClose={() => form.resetFields()}>
       <Form form={form}>
         <Form.Item
           label="考试名称"

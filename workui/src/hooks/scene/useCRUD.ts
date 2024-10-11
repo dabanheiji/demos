@@ -9,6 +9,7 @@ export interface CRUD<CP, RP extends Params, UP, DP, CR, RR, UR, DR> {
   update: (params: UP) => Promise<UR>;
   delete: (params: DP) => Promise<DR>;
   form?: FormInstance;
+  onSuccess?: (...args: any[]) => void;
 }
 
 export const useCRUD = <
@@ -23,7 +24,7 @@ export const useCRUD = <
 >(
   options: CRUD<CP, RP, UP, DP, CR, RR, UR, DR>,
 ) => {
-  const { create, read, update, delete: _delete, form } = options;
+  const { create, read, update, delete: _delete, form, onSuccess: _onSuccess } = options;
 
   const { search, tableProps } = useAntdTable<RR, RP>(read, {
     form,
@@ -32,6 +33,7 @@ export const useCRUD = <
   const onSuccess = () => {
     message.success('操作成功');
     search.submit();
+    _onSuccess && _onSuccess();
   };
 
   const { run: createRun, loading: createLoading } = useRequest(create, {

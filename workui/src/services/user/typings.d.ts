@@ -4,4 +4,8 @@ namespace IUser {
         username: string;
         email: string;
     }
+
+    interface UserInfo extends User {
+        roles: Role.Role[];
+    }
 }

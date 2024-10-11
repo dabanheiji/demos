@@ -27,6 +27,17 @@ export const routes = [
     component: './Home',
   },
   {
+    name: '权限管理',
+    path: '/auth',
+    routes: [
+      {
+        name: '角色管理',
+        path: '/auth/role',
+        component: './Role',
+      }
+    ]
+  },
+  {
     name: '老常学院',
     path: '/school',
     routes: [

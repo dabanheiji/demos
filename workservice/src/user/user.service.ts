@@ -145,7 +145,6 @@ export class UserService {
         id: true,
         username: true,
         email: true,
-        password: true,
         roles: {
           select: {
             role: {

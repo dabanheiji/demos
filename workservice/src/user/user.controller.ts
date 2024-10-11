@@ -106,4 +106,11 @@ export class UserController {
   async userInfo(@UserInfo('userId') userId: number) {
     return await this.userService.userInfo(userId);
   }
+
+  @Get('list')
+  @UseGuards(AuthGuard)
+  @RequireLogin()
+  async list() {
+    return await this.userService.list();
+  }
 }

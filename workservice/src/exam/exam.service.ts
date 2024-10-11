@@ -112,6 +112,20 @@ export class ExamService {
       throw new HttpException('请先完善试卷内容', HttpStatus.BAD_REQUEST);
     }
 
+    const existingExamUsers = await this.prismaService.examUser.findFirst({
+      where: {
+        examId: dto.examId
+      }
+    })
+
+    if(existingExamUsers) {
+      await this.prismaService.examUser.deleteMany({
+        where: {
+          examId: dto.examId
+        }
+      })
+    }
+
     const examUsers: Prisma.ExamUserUncheckedCreateInput[] = [];
     for(const userId of dto.userIds) {
       examUsers.push({
@@ -127,6 +141,7 @@ export class ExamService {
     return await this.prismaService.exam.update({
       where: {
         id: dto.examId,
+        examsUser: {}
       },
       data: {
         isPublished: true,

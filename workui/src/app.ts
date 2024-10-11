@@ -3,11 +3,14 @@ import { message } from 'antd';
 import './global.css';
 
 import { RequestConfig, history } from '@umijs/max';
+import services from './services';
 
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
-export async function getInitialState(): Promise<{ name: string }> {
-  return { name: '老常' };
+export async function getInitialState(): Promise<{ name: string, userInfo: IUser.User }> {
+  const userInfo = await services.user.userInfo();
+
+  return { name: '老常', userInfo };
 }
 
 export const layout = () => {
@@ -34,7 +37,7 @@ export const request: RequestConfig = {
     // @ts-ignore
     [
       (res) => {
-        console.log('res', res);
+        // console.log('res', res);
         if (res.status === 401) {
           history.push('/login');
         }

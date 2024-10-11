@@ -14,3 +14,8 @@ export const updatepasswordCaptcha = async (params: API.CaptchaRequest) =>
 
 export const updatePassword = async (data: API.UpdatePasswordRequest) =>
   request('/api/user/update-password', { method: 'POST', data });
+
+export const userList = async (params?: any) =>
+  request<IUser.User[]>('/api/user/list', { method: 'GET', params });
+
+export const userInfo = async () => request<IUser.User>('/api/user/user-info');

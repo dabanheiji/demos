@@ -159,4 +159,23 @@ export class UserService {
       },
     });
   }
+
+  async list(code?: string) {
+    return await this.prismaService.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        email: true,
+      },
+      where: {
+        roles: {
+          some: {
+            role: {
+              code,
+            }
+          }
+        }
+      }
+    })
+  }
 }

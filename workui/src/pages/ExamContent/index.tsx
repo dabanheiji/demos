@@ -1,18 +1,18 @@
 import { PageContainer } from '@ant-design/pro-components';
-import { Button, Flex, message, Space, Tabs } from 'antd';
+import { Button, Flex, Form, message, Space, Tabs } from 'antd';
 import { useRef, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Content from './Content';
 import QType from './QType';
 import QuestionEditor from '../../components/QuestionEditor';
-import { createQuestion, QuestionItem, QuestionType } from './utils';
+import { createQuestion, QuestionItem } from './utils';
 import { useDebounceFn, useRequest } from 'ahooks';
 import { history, useParams } from '@umijs/max';
 import services from '@/services';
 
 const ExamContent = () => {
-  const editorRef = useRef<any>();
+  const [editorForm] = Form.useForm();
   const params = useParams();
   const [questions, setQuestions] = useState<QuestionItem[]>([]);
   const [activeKey, setActiveKey] = useState<string>('1');
@@ -30,13 +30,13 @@ const ExamContent = () => {
     }
   })
 
-  const onDrop = (item: { type: QuestionType }) => {
+  const onDrop = (item: { type: IQuestion.QuestionType }) => {
     setQuestions((questions) => [...questions, createQuestion(item)]);
   };
 
   const onClick = (item: QuestionItem) => {
     flush();
-    editorRef.current?.setValues(item);
+    editorForm.setFieldsValue(item);
   };
 
   const { run: onEditorChange, flush } = useDebounceFn((_, values) => {
@@ -92,7 +92,7 @@ const ExamContent = () => {
                 {
                   label: '属性配置',
                   key: '2',
-                  children: <QuestionEditor ref={editorRef} onChange={onEditorChange} />,
+                  children: <QuestionEditor form={editorForm} onChange={onEditorChange} />,
                 },
               ]}
             />

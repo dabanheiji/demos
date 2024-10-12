@@ -1,5 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 namespace API {
+  interface ListRequest {
+    pageNo: number;
+    pageSize: number;
+  }
+
+  interface ListResponse<T> {
+    list: T[];
+    total: number;
+  }
+
   interface BaseResponse {
     [key: string]: any;
   }

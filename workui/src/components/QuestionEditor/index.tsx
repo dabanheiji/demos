@@ -1,40 +1,32 @@
 import { QUESTION_TYPE_OPTIONS } from '@/constants';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, InputNumber, Select, Space } from 'antd';
+import { Button, Form, FormInstance, Input, InputNumber, Select, Space } from 'antd';
 import { FormProps } from 'antd/lib';
-import React, { forwardRef, useImperativeHandle } from 'react';
+import React from 'react';
 
 interface QuestionEditorProps {
   onChange?: FormProps['onValuesChange'];
+  form?: FormInstance;
+  onFinish?: FormProps['onFinish'];
   [key: string]: any;
 }
 
-const QuestionEditor: React.FC<QuestionEditorProps> = forwardRef(({
-  onChange
-}, ref) => {
-  const [form] = Form.useForm();
-
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      setValues: (values: any) => {
-        form.setFieldsValue(values);
-      },
-    }),
-    [form],
-  );
+const QuestionEditor: React.FC<QuestionEditorProps> = ({
+  onChange,
+  onFinish,
+  form
+}) => {
 
   return (
     <div>
-      <Form form={form} labelCol={{ flex: '80px' }} onValuesChange={onChange}>
+      <Form form={form} labelCol={{ flex: '80px' }} onValuesChange={onChange} onFinish={onFinish}>
         <Form.Item name="id" hidden />
         <Form.Item
           label="类型"
           name="type"
           rules={[{ required: true, message: '请选择题目类型' }]}
         >
-          <Select disabled>
+          <Select placeholder='请选择' allowClear>
             {
               QUESTION_TYPE_OPTIONS.map((item) => (
                 <Select.Option key={item.value} value={item.value}>
@@ -106,6 +98,6 @@ const QuestionEditor: React.FC<QuestionEditorProps> = forwardRef(({
       </Form>
     </div>
   );
-});
+};
 
 export default QuestionEditor;
